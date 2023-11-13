@@ -2,6 +2,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import React from 'react';
 import { fontType } from '../theme';
+import { Receipt21, Clock, Message2 } from 'iconsax-react-native';
 
 const ItemSmall = ({item}) => {
   return (
@@ -26,18 +27,18 @@ const ItemSmall = ({item}) => {
             <Text style={styles.cardTitle}>{item.title}</Text>
           </View>
           <Receipt21
-            color={colors.grey(0.6)}
+            color="#808080"
             variant="Linear"
             size={20}
           />
         </View>
         <View style={styles.cardInfo}>
-          <Clock size={10} variant="Linear" color={colors.grey(0.6)} />
+          <Clock size={10} variant="Linear" color="#808080" />
           <Text style={styles.cardText}>{item.createdAt}</Text>
-          <Message
+          <Message2
             size={10}
             variant="Linear"
-            color={colors.grey(0.6)}
+            colors = 'grey(0.6)'
           />
           <Text style={styles.cardText}>{item.totalComments}</Text>
         </View>
@@ -54,24 +55,24 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   cardItem: {
-    backgroundColor: colors.blue(0.03),
+    backgroundColor: 'blue(0.03)',
     flexDirection: 'row',
     borderRadius: 10,
   },
   cardCategory: {
-    color: colors.blue(),
+    color: 'blue',
     fontSize: 10,
     fontFamily: fontType[' Tjw-Medium'],
   },
   cardTitle: {
     fontSize: 14,
     fontFamily: fontType['Tjw-ExtraBold'],
-    color: colors.black(),
+    color: 'black',
   },
   cardText: {
     fontSize: 10,
     fontFamily: fontType['Tjw-Light'],
-    color: colors.grey(0.6),
+    color: 'grey(0.6)',
   },
   cardImage: {
     width: 94,

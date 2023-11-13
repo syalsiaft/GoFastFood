@@ -25,8 +25,7 @@ export const listCategory = [
       id: 1,
       title: 'PLATTER MEAL SET A',
       category: 'Maincourse',
-      image:
-        'https://en.pimg.jp/018/891/554/1/18891554.jpg',
+      image: 'https://en.pimg.jp/018/891/554/1/18891554.jpg',
       createdAt: 'Nov 10, 2023',
       totalComments: 89,
     },
@@ -130,31 +129,39 @@ export const listCategory = [
       totalComments: 89,
     },
     {
-        id: 13,
-        title: 'JUS JERUK',
-        category: 'Drinks',
-        image:
-          'https://media.istockphoto.com/vectors/photorealistic-illustration-of-orange-juice-in-a-glass-vector-id92719909?k=6&m=92719909&s=612x612&w=0&h=Cz_1O3YXWbZl95vAOcHs7vr9gwambJp5xHhRz0B99oo=',
-        createdAt: 'Jul 25, 2023',
-        totalComments: 89,
-      },
-      {
-        id: 14,
-        title: 'AIR MINERAL',
-        category: 'Drinks',
-        image:
-          'https://png.pngtree.com/png-vector/20191129/ourlarge/pngtree-bottle-of-mineral-water-vector-illustration-isolated-on-white-background-mineral-png-image_2025936.jpg',
-        createdAt: 'Jul 25, 2023',
-        totalComments: 89,
-      },
-      {
-        id: 15,
-        title: 'MIX FRUIT',
-        category: 'Desserts',
-        image:
-          'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX3937805.jpg',
-        createdAt: 'Jul 25, 2023',
-        totalComments: 89,
-      },
-      
+      id: 13,
+      title: 'JUS JERUK',
+      category: 'Drinks',
+      image:
+        'https://media.istockphoto.com/vectors/photorealistic-illustration-of-orange-juice-in-a-glass-vector-id92719909?k=6&m=92719909&s=612x612&w=0&h=Cz_1O3YXWbZl95vAOcHs7vr9gwambJp5xHhRz0B99oo=',
+      createdAt: 'Jul 25, 2023',
+      totalComments: 89,
+    },
+    {
+      id: 14,
+      title: 'AIR MINERAL',
+      category: 'Drinks',
+      image:
+        'https://png.pngtree.com/png-vector/20191129/ourlarge/pngtree-bottle-of-mineral-water-vector-illustration-isolated-on-white-background-mineral-png-image_2025936.jpg',
+      createdAt: 'Jul 25, 2023',
+      totalComments: 89,
+    },
+    {
+      id: 15,
+      title: 'MIX FRUIT',
+      category: 'Desserts',
+      image: 'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX3937805.jpg',
+      createdAt: 'Jul 25, 2023',
+      totalComments: 89,
+    },
   ];
+
+    export const ProfileData = {
+      profilePict:
+        'https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+      name: 'Arthur Conan Doyle',
+      createdAt: 'syalsiafatiha@gmail.com',
+      blogPosted: 29,
+      following: 3000,
+      follower: 3000,
+    };

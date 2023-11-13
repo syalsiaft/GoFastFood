@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import { fontType } from '../theme';
+import { StyleSheet } from 'react-native';
 const ItemHorizontal = ({item, variant, onPress}) => {
   return (
     <View style={itemHorizontal.cardItem}>
@@ -20,7 +21,7 @@ const ItemHorizontal = ({item, variant, onPress}) => {
           <View>
             <View style={itemHorizontal.cardIcon}>
               <TouchableOpacity onPress={onPress}>
-                <Receipt21 color={colors.white()} variant={variant} size={20} />
+                <Receipt21 color = 'white' variant={variant} size={20} />
               </TouchableOpacity>
             </View>
           </View>
@@ -84,17 +85,17 @@ const itemHorizontal = StyleSheet.create({
   cardTitle: {
     fontFamily: fontType['Tjw-Bold'],
     fontSize: 14,
-    color: colors.white(),
+    color: "white",
   },
   cardText: {
     fontSize: 10,
-    color: colors.white(),
+    color: "white",
     fontFamily: fontType['Tjw-Light'],
   },
   cardIcon: {
-    backgroundColor: colors.white(0.33),
+    backgroundColor: "white",
     padding: 5,
-    borderColor: colors.white(),
+    borderColor: "white",
     borderWidth: 0.5,
     borderRadius: 5,
   },
