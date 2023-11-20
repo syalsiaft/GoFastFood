@@ -4,6 +4,10 @@ import {ReceiptAdd, Book1, Category} from 'iconsax-react-native';
 import FastImage from 'react-native-fast-image';
 import { fontType, colors } from '../theme';
 
+import {useNavigation} from '@react-navigation/native';
+
+const navigation = useNavigation();
+
 const truncateTextByWords = (text, maxWords) => {
   const words = text.split(' ');
   if (words.length > maxWords) {

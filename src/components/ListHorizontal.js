@@ -2,6 +2,10 @@ import React, {useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import { fontType } from '../theme';
 import { StyleSheet } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
+const navigation = useNavigation();
+
 const ItemHorizontal = ({item, variant, onPress}) => {
   return (
     <View style={itemHorizontal.cardItem}>

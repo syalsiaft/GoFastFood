@@ -4,6 +4,9 @@ import {BlogList} from '../../../data';
 import {ItemSmall} from '../../components'; 
 import {SearchNormal} from 'iconsax-react-native';
 import { fontType, colors } from '../../theme';
+import {useNavigation} from '@react-navigation/native';
+
+const navigation = useNavigation();
 
 const data = [
   {id: 1, label: 'Maincourse'},
@@ -88,7 +91,7 @@ header: {
   },
   placeholder: {
     fontSize: 14,
-    fontFamily: fontType['Pjs-Medium'],
+    fontFamily: fontType['Tjw-Medium'],
     color: 'grey(0.5)',
     lineHeight: 18,
   },
@@ -105,12 +108,12 @@ const Filter = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    fontFamily: fontType['Pjs-Medium'],
+    fontFamily: fontType['Tjw-Medium'],
     color: 'grey(0.65)',
   },
   text: {
     fontSize: 14,
-    fontFamily: fontType['Pjs-Bold'],
+    fontFamily: fontType['Tjw-Bold'],
     color: 'black',
     paddingVertical: 5,
     paddingHorizontal: 24,

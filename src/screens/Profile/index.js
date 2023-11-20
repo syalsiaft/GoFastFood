@@ -11,6 +11,9 @@ import FastImage from 'react-native-fast-image';
 import {ProfileData, BlogList} from '../../../data';
 import {ItemSmall} from '../../components';
 import {fontType, colors} from '../../theme';
+import {useNavigation} from '@react-navigation/native';
+
+// const navigation = useNavigation();
 
 export default function Profile() {
   return (

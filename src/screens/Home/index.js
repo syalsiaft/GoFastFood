@@ -10,6 +10,9 @@ import {
 import {BlogList, listCategory} from '../../../data';
 import {fontType} from '../../theme';
 import {FlatList} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
+// const navigation = useNavigation();
 
 export default function Home() {
   return (
