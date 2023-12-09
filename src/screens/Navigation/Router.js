@@ -1,9 +1,9 @@
 import React from 'react';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Home, Discover, Profile, detailScreen} from '../../screens';
-import {Home2, LocationDiscover, Receipt21, ProfileCircle} from 'iconsax-react-native'; 
-import {fontType, colors } from '../../theme';
+import {Home, Order,  Discover, Profile, DetailScreen, AddOrderForm,SearchBar} from '../../screens';
+import {Home2, LocationDiscover, Receipt21, ProfileCircle, ShoppingCart} from 'iconsax-react-native'; 
+import {fontType} from '../../theme';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -32,6 +32,21 @@ function MainApp() {
           tabBarLabel: 'Home',
           tabBarIcon: ({focused, color}) => (
             <Home2
+              color={color}
+              variant={focused ? 'Bold' : 'Linear'}
+              size={24}
+            />
+          ),
+          headerShown: false,
+        }}
+      />
+       <Tab.Screen
+        name="Order"
+        component={Order}
+        options={{
+          tabBarLabel: 'Order',
+          tabBarIcon: ({focused, color}) => (
+            <ShoppingCart
               color={color}
               variant={focused ? 'Bold' : 'Linear'}
               size={24}
@@ -82,10 +97,23 @@ const Router = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="detailScreen"
-        component={detailScreen}
+        name="DetailScreen"
+        component={DetailScreen}
+        options={{
+          headerShown: false,
+          presentation:'trapsparantModal',
+        }}
+      />
+      <Stack.Screen
+        name="AddOrderForm"
+        component={AddOrderForm}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="SearchBar"
+        component={SearchBar}
+        options={{ headerShown: false }}
+        />
     </Stack.Navigator>
   );
 };

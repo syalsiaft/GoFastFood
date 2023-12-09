@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 const navigation = useNavigation();
 
 // Create the HomeScreen component
-const detailScreen = () => {
+const DetailScreen = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
   return (
     <View style={styles.container}>
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
 });
 
 // Export the HomeScreen component
-export default detailScreen;
+export default DetailScreen;

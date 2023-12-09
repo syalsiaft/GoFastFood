@@ -10,12 +10,11 @@ import {
 import React, {useRef} from 'react';
 import {BlogList} from '../../../data';
 import {ItemSmall} from '../../components';
-import {SearchNormal} from 'iconsax-react-native';
+import {SearchNormal, Edit} from 'iconsax-react-native';
 import {fontType, colors} from '../../theme';
 import {useNavigation} from '@react-navigation/native';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
-const Discover = () => {
+const Order = () => {
   const navigation = useNavigation();
   const FilterBlog = BlogList.slice(5);
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -54,53 +53,70 @@ const Discover = () => {
   };
   return (
     <View style={styles.container}>
-      {/* <Animated.View
-        style={[styles.container, {transform: [{translateY: recentY}]}]}>
-        <Text style={styles.placeholder}>Search</Text>
-        <FlatListRecent />
-      </Animated.View> */}
-
-      <TouchableOpacity
-        style={styles.searchBar}
-        onPress={() => navigation.navigate('SearchBar')}>
-        <Text style={{color: 'black', left: 137, fontSize: 16}}>Search...</Text>
-        <SearchNormal
-          color={'black'}
-          variant="Broken"
-          size={25}
-          style={{opacity: 0.9, marginHorizontal: '-34%'}}
-        />
-      </TouchableOpacity>
-      
-      <View>
-        <Text style={Filter.text}>Filter</Text>
-        <FlatListFilter />
-      </View>
-      <Animated.ScrollView
-        showsVerticalScrollIndicator={false}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollY}}}],
-          {useNativeDriver: true},
-        )}
-        contentContainerStyle={{paddingTop: 142}}>
-        <View style={styles.listCard}>
-          {/* {recentBlog.map((item, index) => (
+      <View style={styles.headerUp}>
+        <View>
+          <Text style={Filter.text}>Filter</Text>
+          <FlatListFilter />
+        </View>
+        <Animated.ScrollView
+          showsVerticalScrollIndicator={false}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {y: scrollY}}}],
+            {useNativeDriver: true},
+          )}
+          contentContainerStyle={{paddingTop: 142}}>
+          <View style={styles.listCard}>
+            {/* {recentBlog.map((item, index) => (
             <ItemSmall item={item} key={index} />
           ))} */}
+          </View>
+        </Animated.ScrollView>
+      </View>
+      <ScrollView>
+        <View style={styles.kotak}>
+          <Text>Gambar Makanan 1</Text>
         </View>
-      </Animated.ScrollView>
+        <View style={styles.kotak}>
+          <Text>Gambar Makanan 2</Text>
+        </View>
+        <View style={styles.kotak}>
+          <Text>Gambar Makanan 3</Text>
+        </View>
+        <View style={styles.kotak}>
+          <Text>Gambar Makanan 4</Text>
+        </View>
+        <View style={styles.kotak}>
+          <Text>Gambar Makanan 5</Text>
+        </View>
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => navigation.navigate('AddOrderForm')}>
+        <Edit color="white" variant="Linear" size={20} />
+      </TouchableOpacity>
     </View>
   );
 };
-export default Discover;
+export default Order;
 const styles = StyleSheet.create({
   listCard: {
     paddingHorizontal: 24,
     paddingBottom: 10,
-    gap: 10,
   },
   container: {
     flex: 1,
+    backgroundColor: 'white',
+  },
+  headerUp: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 120,
+    paddingTop: 8,
+    paddingBottom: 4,
+    top: 0,
+    zIndex: 1000,
+    right: 0,
+    left: 0,
     backgroundColor: 'white',
   },
   header: {
@@ -117,35 +133,38 @@ const styles = StyleSheet.create({
     left: 0,
     backgroundColor: 'white',
   },
-  searchBar: {
-    paddingHorizontal: 1,
-    justifyContent: 'space-around',
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-    height: 50,
+  kotak: {
+    width: 400,
+    height: 131,
+    paddingHorizontal: 8,
+    marginBottom: 10,
     marginHorizontal: 5,
-    marginTop: 30,
-    paddingTop: 20,
-    margin: 13,
-    padding: 10,
-    borderRadius: 30,
+    borderRadius: 10,
+    justifyContent: 'center',
+    backgroundColor: 'pink',
   },
-
-  // bar: {
-  //   flexDirection: 'row',
-  //   padding: 10,
-  //   gap: 10,
-  //   alignItems: 'center',
-  //   backgroundColor: 'grey(0.05)',
-  //   borderRadius: 10,
-  //   flex: 1,
-  // },
   placeholder: {
     fontSize: 14,
     fontFamily: fontType['Tjw-Medium'],
     color: 'grey(0.5)',
     lineHeight: 18,
+  },
+  floatingButton: {
+    backgroundColor: "red",
+    padding: 15,
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    borderRadius: 10,
+    shadowColor: "red",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+
+    elevation: 8,
   },
 });
 
@@ -164,7 +183,7 @@ const Filter = StyleSheet.create({
     color: 'grey(0.65)',
   },
   text: {
-    fontSize: 14,
+    fontSize: 25,
     fontFamily: fontType['Tjw-Bold'],
     color: 'black',
     paddingVertical: 5,
