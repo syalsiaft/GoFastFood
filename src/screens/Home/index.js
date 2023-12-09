@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -6,24 +6,39 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  Animated,
 } from 'react-native';
 import {BlogList, listCategory} from '../../../data';
 import {fontType} from '../../theme';
-import {FlatList} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-
-// const navigation = useNavigation();
 
 export default function Home() {
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const diffClampY = Animated.diffClamp(scrollY, 0, 50);
+  const recentY = diffClampY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [0, -290],
+    extrapolate: 'clamp',
+  });
+
   return (
     <View style={{flex: 1}}>
-      {/* Header */}
-      <View style={{backgroundColor: '#FFFFFF', padding: 10}}>
-        <Text style={header.categoryTitle}>GoFastFood</Text>
-        <Text style={subHeader.categoryTitle}>Enjoy The Food</Text>
-      </View>
-      <BlogAtas />
-      <BlogBawah blogItems={BlogList} />
+      <Animated.View
+        style={[header.container, {transform: [{translateY: recentY}]}]}>
+        <View style={{backgroundColor: '#FFFFFF', padding: 10}}>
+          <Text style={header.categoryTitle}>GoFastFood</Text>
+          <Text style={subHeader.categoryTitle}>Enjoy The Food</Text>
+        </View>
+        <BlogAtas />
+      </Animated.View>
+      <Animated.ScrollView
+        showsVerticalScrollIndicator={false}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {y: scrollY}}}],
+          {useNativeDriver: true},
+        )}
+        contentContainerStyle={{}}>
+        <BlogBawah blogItems={BlogList} />
+      </Animated.ScrollView>
     </View>
   );
 }
@@ -33,6 +48,25 @@ const header = StyleSheet.create({
     fontFamily: fontType['Lcg-Regular'],
     fontSize: 40,
     color: 'black',
+    paddingHorizontal: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 52,
+    paddingBottom: 4,
+    position: 'absolute',
+    top: 0,
+    zIndex: 1000,
+    right: 0,
+    left: 0,
+    backgroundColor: 'white',
+  },
+  container: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    zIndex: 999,
+    left: 0,
+    right: 0,
+    elevation: 1000,
   },
 });
 
@@ -52,58 +86,52 @@ const BlogAtas = () => {
     setSelectedCategory(category);
   };
 
+  const scrollY = useRef(new Animated.Value(0)).current;
   return (
-    <View style={atas.containercat}>
-      <View style={atas.listCategory}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {listCategory.map(categoryData => (
-            <TouchableOpacity
-              key={categoryData.id}
-              onPress={() => handleCategoryChange(categoryData.categoryName)}>
-              <View
+    <View style={[atas.containercat]}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {listCategory.map(categoryData => (
+          <TouchableOpacity
+            key={categoryData.id}
+            onPress={() => handleCategoryChange(categoryData.categoryName)}>
+            <View
+              style={{
+                ...atas.categoryItem,
+                marginTop: 10,
+                marginLeft: 25,
+                borderColor:
+                  selectedCategory === categoryData.categoryName
+                    ? 'blue'
+                    : 'transparent',
+                borderWidth:
+                  selectedCategory === categoryData.categoryName ? 2 : 0,
+              }}>
+              <Image
+                style={{...atas.image, marginLeft: 2}}
+                source={{
+                  uri: categoryData.uri,
+                }}
+              />
+              <Text
                 style={{
-                  ...atas.categoryItem,
-                  marginTop: 10,
-                  marginLeft: 25,
-                  borderColor:
+                  ...atas.categoryText,
+                  color:
                     selectedCategory === categoryData.categoryName
-                      ? 'blue'
-                      : 'transparent',
-                  borderWidth:
-                    selectedCategory === categoryData.categoryName ? 2 : 0,
+                      ? 'coral'
+                      : 'black',
+                  marginLeft: 2,
                 }}>
-                <Image
-                  style={{...atas.image, marginLeft: 2}}
-                  source={{
-                    uri: categoryData.uri,
-                  }}
-                />
-                <Text
-                  style={{
-                    ...atas.categoryText,
-                    color:
-                      selectedCategory === categoryData.categoryName
-                        ? 'coral'
-                        : 'black',
-                    marginLeft: 2,
-                  }}>
-                  {categoryData.categoryName}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
+                {categoryData.categoryName}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
     </View>
   );
 };
 
 const atas = StyleSheet.create({
-  containercat: {
-    height: 130,
-    weight: 100,
-    backgroundColor: '#fff3eb',
-  },
   listCategory: {
     backgroundColor: '#FFDFDF',
     paddingTop: 10,
@@ -123,42 +151,50 @@ const atas = StyleSheet.create({
 
 //penerapan props
 const BlogBawah = props => {
+  const scrollY = useRef(new Animated.Value(0)).current;
+
   return (
-    <View style={styles.container}>
-      <ScrollView
-        horizontal
-        style={styles.horizontalUtama}
-        showsHorizontalScrollIndicator={false}>
-        {props.blogItems.map(item => (
-          <View style={styles.categoryUtama} key={item.id}>
-            <Image
-              style={styles.imageUtama}
-              source={{
-                uri: item.image,
-              }}
-            />
-            <Text style={styles.textfont}>{item.title}</Text>
-          </View>
-        ))}
-      </ScrollView>
-    </View>
+    <Animated.ScrollView
+      onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
+        useNativeDriver: false,
+      })}
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+      scrollEventThrottle={16}>
+      {props.blogItems.map(item => (
+        <View style={styles.categoryUtama} key={item.id}>
+          <Image
+            style={styles.imageUtama}
+            source={{
+              uri: item.image,
+            }}
+          />
+          <Text style={styles.textfont}>{item.title}</Text>
+        </View>
+      ))}
+    </Animated.ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
-    height: '53%',
+    backgroundColor: 'white',
+    height: "100%",
   },
   categoryUtama: {
+
     backgroundColor: '#FFCDB6',
+    top: 120,
     marginTop: 50,
     marginLeft: 15,
     marginRight: 20,
-    height: '85%',
+    height: '85',
     width: 250,
+    justifyContent:"center",
+    alignSelf:'center',
     borderRadius: 20,
     padding: 15,
+
   },
   categoryUtama1: {
     backgroundColor: '#D6D8FF',

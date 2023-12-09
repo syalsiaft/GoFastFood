@@ -84,14 +84,7 @@ const Router = () => {
       <Stack.Screen
         name="detailScreen"
         component={detailScreen}
-        options={{
-          headerShown: false, 
-          animationEnabled: true,
-          animationTypeForReplace: 'pop',
-          gestureEnabled: true,
-          gestureDirection : 'horizontal',
-          ...TransitionPresets.SlideFromRightIOS,
-        }}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

@@ -1,6 +1,6 @@
 // Import React and necessary components from 'react-native'
-import React from 'react';
-import { View, Text, StyleSheet,TouchableOpacity } from 'react-native';
+import React, {useRef}  from 'react';
+import { View, Text, StyleSheet,TouchableOpacity, Animated } from 'react-native';
 import {ArrowCircleLeft2, SearchNormal} from 'iconsax-react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -8,6 +8,7 @@ const navigation = useNavigation();
 
 // Create the HomeScreen component
 const detailScreen = () => {
+  const scrollY = useRef(new Animated.Value(0)).current;
   return (
     <View style={styles.container}>
         <TouchableOpacity
