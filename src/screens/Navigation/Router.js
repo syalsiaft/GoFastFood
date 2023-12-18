@@ -1,8 +1,23 @@
 import React from 'react';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Home, Order,  Discover, Profile, DetailScreen, AddOrderForm,SearchBar} from '../../screens';
-import {Home2, LocationDiscover, Receipt21, ProfileCircle, ShoppingCart} from 'iconsax-react-native'; 
+import {
+  Home,
+  Order,
+  Discover,
+  Profile,
+  DetailScreen,
+  AddOrderForm,
+  SearchBar,
+  EditOrderForm,
+} from '../../screens';
+import {
+  Home2,
+  LocationDiscover,
+  Receipt21,
+  ProfileCircle,
+  ShoppingCart,
+} from 'iconsax-react-native';
 import {fontType} from '../../theme';
 
 const Tab = createBottomTabNavigator();
@@ -40,7 +55,7 @@ function MainApp() {
           headerShown: false,
         }}
       />
-       <Tab.Screen
+      <Tab.Screen
         name="Order"
         component={Order}
         options={{
@@ -101,7 +116,7 @@ const Router = () => {
         component={DetailScreen}
         options={{
           headerShown: false,
-          presentation:'trapsparantModal',
+          presentation: 'trapsparantModal',
         }}
       />
       <Stack.Screen
@@ -110,10 +125,15 @@ const Router = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="EditForm"
+        component={EditOrderForm}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="SearchBar"
         component={SearchBar}
-        options={{ headerShown: false }}
-        />
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };

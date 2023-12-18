@@ -12,21 +12,46 @@ import {ArrowLeft} from 'iconsax-react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import axios from 'axios';
 
-const AddOrderForm = () => {
-  const [loading, setLoading] = useState(false);
+const EditOrderForm = ({route}) => {
+  const {blogId} = route.params;
+  const [blogData, setBlogData] = useState({
+    alamat: '',
+    pesanan: '',
+  });
+  const handleChange = (key, value) => {
+    setBlogData({
+      ...blogData,
+      [key]: value,
+    });
+  };
+  const [image, setImage] = useState(null);
   const navigation = useNavigation();
-  const [orderData, setOrderData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    getBlogById();
+  }, [blogId]);
 
-  const handleUpload = async () => {
+  const getBlogById = async () => {
+    try {
+      const response = await axios.get(`https://657d3702853beeefdb9a651b.mockapi.io/gofastfood/order/${blogId}`);
+      setBlogData({
+        pesanan: response.data.pesanan,
+        alamat : response.data.alamat,
+      });
+      setImage(response.data.image);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleUpdate = async () => {
     setLoading(true);
     try {
       await axios
-        .post('https://657d3702853beeefdb9a651b.mockapi.io/gofastfood/order', {
-          alamat: orderData.alamat,
-          pesanan: orderData.pesanan,
+        .put(`https://657d3702853beeefdb9a651b.mockapi.io/gofastfood/order/${blogId}`, {
+          pesanan: blogData.pesanan,
+          alamat: blogData.alamat,
           image,
-          createdAt: new Date(),
         })
         .then(function (response) {
           console.log(response);
@@ -40,7 +65,16 @@ const AddOrderForm = () => {
       console.log(e);
     }
   };
-  const [image, setImage] = useState(null);
+
+  const handleDelete = async () => {
+    await axios.delete(`https://657d3702853beeefdb9a651b.mockapi.io/gofastfood/order/${blogId}`)
+       .then(() => {
+         navigation.navigate('Order');
+       })
+       .catch((error) => {
+         console.error(error);
+       });
+   }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -66,7 +100,9 @@ const AddOrderForm = () => {
           <View style={form.AlamatBox}>
             <TextInput
               style={form.TextInput}
+              value={blogData.alamat}
               placeholder="Alamat"
+              onChangeText={text => handleChange('alamat', text)}
               placeholderTextColor={'#000'}
               multiline
             />
@@ -74,15 +110,9 @@ const AddOrderForm = () => {
           <View style={form.PesananBox}>
             <TextInput
               style={form.TextInput}
-              placeholder="Pesanan"
-              placeholderTextColor={'#000'}
-              multiline
-            />
-          </View>
-          <View style={form.CatatanBox}>
-            <TextInput
-              style={form.TextInput}
-              placeholder="Catatan"
+              value={blogData.pesanan}
+              placeholder="pesanan"
+              onChangeText={text => handleChange('pesanan', text)}
               placeholderTextColor={'#000'}
               multiline
             />
@@ -103,14 +133,17 @@ const AddOrderForm = () => {
             <ActivityIndicator size="large" color={'blue'} />
           </View>
         )}
-        <TouchableOpacity style={form.btnPesan} onPress={handleUpload}>
-          <Text style={form.textBtn}>Pesan</Text>
+        <TouchableOpacity style={form.btnPesan} onPress={handleUpdate}>
+          <Text style={form.textBtn}>Update Pesanan</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={form.btnPesan} onPress={handleDelete}>
+          <Text style={form.textBtn}>Hapus</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-export default AddOrderForm;
+export default EditOrderForm;
 
 const styles = StyleSheet.create({
   container: {
@@ -182,9 +215,10 @@ const form = StyleSheet.create({
   },
   btnPesan: {
     alignSelf: 'center',
-    marginTop: 20,
+    marginBottom: 5,
+    marginTop: 10,
     height: 50,
-    width: '100%',
+    width: '88%',
     backgroundColor: 'pink',
     borderRadius: 10,
     justifyContent: 'center',

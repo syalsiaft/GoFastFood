@@ -1,140 +1,73 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-} from 'react-native';
-import {Setting2} from 'iconsax-react-native';
-import React from 'react';
-import FastImage from 'react-native-fast-image';
-import {ProfileData, BlogList} from '../../../data';
-import {ItemSmall} from '../../components';
-import {fontType, colors} from '../../theme';
+import {StyleSheet, View, TextInput, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {ArrowLeft, Add, SearchNormal1} from 'iconsax-react-native';
 
-// const navigation = useNavigation();
-
-export default function Profile() {
+const SearchBar = () => {
+  const navigation = useNavigation();
+  const [searchPhrase, setSearchPhrase] = useState('');
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.konten}>
-          <View style={styles.kontenbaris}>
-            <Image
-              source={{
-                uri: 'https://images.unsplash.com/photo-1491013516836-7db643ee125a?q=80&w=1450&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-              }}
-              style={styles.Image}>
-              </Image>
-              <View style={styles.kontencoloum}>
-                <Text style={styles.teks}>Syalsia Fatiha</Text> 
-                <Text style={[styles.teks,{color:'black'}, {fontSize:18}]}>Subscribe</Text>  
-              </View>
-            
-          </View>
-        </View>
-        <View style={styles.Line}></View>
-        <View style={styles.konten2}>
-        <View>
-            <Text style={styles.title}>For More Value</Text>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}, {paddingBottom:10}]}>Rewards</Text>
-            <View style={styles.Line2}></View>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}, {paddingBottom:10}]}>Subscriptions</Text>
-            <View style={[styles.Line2, {height: 1, opacity: 0.2 }]}></View>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}]}>Challenges</Text>
-
-            <Text style={[styles.title, {paddingTop:30}]}>My Account</Text>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}, {paddingBottom:10}]}>Platinum</Text>
-            <View style={[styles.Line2, {height: 1, opacity: 0.2 }]}></View>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}, {paddingBottom:10}]}>Favourites</Text>
-            <View style={[styles.Line2, {height: 1, opacity: 0.2 },]}></View>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}, {paddingBottom:10}]}>Payment Methods</Text>
-            <View style={[styles.Line2, {height: 1, opacity: 0.2 },]}></View>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}, {paddingBottom:10}]}>Scheduled</Text>
-            <View style={[styles.Line2, {height: 1, opacity: 0.2 },]}></View>
-
-            <Text style={[styles.title, {paddingTop:30}]}>General</Text>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}, {paddingBottom:10}]}>Help Centre</Text>
-            <View style={[styles.Line2, {height: 1, opacity: 0.2 }]}></View>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}, {paddingBottom:10}]}>Settings</Text>
-            <View style={[styles.Line2, {height: 1, opacity: 0.2 },]}></View>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}, {paddingBottom:10}]}>Language</Text>
-            <View style={[styles.Line2, {height: 1, opacity: 0.2 },]}></View>
-            <Text style={[styles.teks, {paddingTop:10}, {color:'black'}, {paddingBottom:10}]}>Share Feedback</Text>
-            <View style={[styles.Line2, {height: 1, opacity: 0.2 },]}></View>
-
-        </View>
-        </View>
-       
+    <View style={styles.container}>
+      <View style={styles.searchBar}>
+        <SearchNormal1
+          color="black"
+          variant="Broken"
+          size={25}
+          style={{opacity: 0.9, marginHorizontal: '-34%'}}
+        />
+        <TextInput
+          style={styles.textinput}
+          placeholder="Search"
+          placeholderTextColor="#9e9e9e"
+          value={searchPhrase}
+          onChangeText={setSearchPhrase}
+          borderWidth={0}
+          underlineColorAndroid="transparent"
+          autoCorrect={false}
+          autoFocus={true}
+        />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <ArrowLeft color="#9e9e9e" variant="Linear" size={24}  style={{marginLeft:10}}/>
+        </TouchableOpacity>
+        
       </View>
-    </ScrollView>
+      {searchPhrase && (
+          <TouchableOpacity onPress={() => setSearchPhrase('')}>
+            <Add
+              size={18}
+              color="#000"
+              variant="Linear"
+              style={{left: 370,top: -45,transform: [{rotate: '45deg'}]}}
+            />
+          </TouchableOpacity>
+        )}
+    </View>
   );
-}
-
+};
+export default SearchBar;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'pink',
   },
-  kontenbaris: {
-    flexDirection: 'row',
-    justifyContent: 'left',
+  searchBar: {
+    paddingHorizontal: 1,
+    justifyContent: 'space-around',
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    height: 50,
+    marginHorizontal: 10,
+    margin: 13,
+    padding: 10,
+    borderRadius: 30,
   },
-
-  kontencoloum: {
-    flexDirection: 'column',
-    justifyContent: 'Left',
-    alignItems: 'Left',
-    paddingHorizontal : 20,
-    paddingTop : 10,
-    paddingBottom: 20,
-  },
-
-  konten: {
-    paddingTop: 10,
-    margin: 10,
-    paddingHorizontal: 5,
-    justifyContent: 'space-between',
-    flexDirection: 'coloumn',
-  },
-
-  konten2: {
-    paddingTop: 10,
-    margin: 10,
-    paddingHorizontal: 5,
-    paddingBottom:20,
-    justifyContent: 'space-between',
-    flexDirection: 'coloumn',
-  },
-
-  teks: {
-    fontSize: 20,
-    fontFamily: fontType['Tjw-Medium'],
-    justifyContent: 'space-between',
-    color: 'blue',
-  },
-  Line: {
-    width: '100%',
-    height: 3,
-    backgroundColor: 'black',
-  },
-  Line2: {
-    width: '98%',
-    height: 1,
-    backgroundColor: 'black',
-  },
-  title: {
-    fontSize: 23,
-    fontFamily: fontType['Tjw-Bold'],
-    color: 'black',
-  },
-  Image: {
-    width: 70,
-    height: 70,
-    borderRadius: 75,
-    resizeMode: 'cover',
-    borderWidth: 1,
-    borderColor: 'black',
+  textinput: {
+    fontSize: 16,
+    color: '#000',
+    lineHeight: 18,
+    padding: 0,
+    flex: 1,
+    marginLeft: 15,
   },
 });
