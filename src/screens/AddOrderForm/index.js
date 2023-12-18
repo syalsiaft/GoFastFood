@@ -8,39 +8,66 @@ import {
   TextInput,
   ActivityIndicator,
 } from 'react-native';
-import {ArrowLeft} from 'iconsax-react-native';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import axios from 'axios';
+import {ArrowLeft, AddSquare, Add} from 'iconsax-react-native';
+import storage from '@react-native-firebase/storage';
+import ImagePicker from 'react-native-image-crop-picker';
+import {fontType} from '../../theme';
+import firestore from '@react-native-firebase/firestore';
+import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 const AddOrderForm = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const [orderData, setOrderData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [image, setImage] = useState(null);
+
+  const handleChange = (key, value) => {
+    setOrderData({
+      ...orderData,
+      [key]: value,
+    });
+  };
+
+  const handleImagePick = async () => {
+    ImagePicker.openPicker({
+      width: 1920,
+      height: 1080,
+      cropping: true,
+    })
+      .then(image => {
+        console.log(image);
+        setImage(image.path);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const handleUpload = async () => {
+    let filename = image.substring(image.lastIndexOf('/') + 1);
+    const extension = filename.split('.').pop();
+    const name = filename.split('.').slice(0, -1).join('.');
+    filename = name + Date.now() + '.' + extension;
+    const reference = storage().ref(`blogimages/${filename}`);
+
     setLoading(true);
     try {
-      await axios
-        .post('https://657d3702853beeefdb9a651b.mockapi.io/gofastfood/order', {
-          alamat: orderData.alamat,
-          pesanan: orderData.pesanan,
-          image,
-          createdAt: new Date(),
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      await reference.putFile(image);
+      const url = await reference.getDownloadURL();
+      await firestore().collection('order').add({
+        alamat: orderData.alamat,
+        pesanan: orderData.pesanan,
+        image : url,
+      });
       setLoading(false);
+      console.log('Order added!');
       navigation.navigate('Order');
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   };
-  const [image, setImage] = useState(null);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -67,6 +94,7 @@ const AddOrderForm = () => {
             <TextInput
               style={form.TextInput}
               placeholder="Alamat"
+              onChangeText={text => handleChange('alamat', text)}
               placeholderTextColor={'#000'}
               multiline
             />
@@ -75,27 +103,84 @@ const AddOrderForm = () => {
             <TextInput
               style={form.TextInput}
               placeholder="Pesanan"
+              onChangeText={text => handleChange('pesanan', text)}
               placeholderTextColor={'#000'}
               multiline
             />
           </View>
-          <View style={form.CatatanBox}>
-            <TextInput
-              style={form.TextInput}
-              placeholder="Catatan"
-              placeholderTextColor={'#000'}
-              multiline
-            />
-          </View>
-          <View style={[form.GambarBox]}>
+          {/* <View style={[form.GambarBox]}>
             <TextInput
               placeholder="Image"
               value={image}
-              onChangeText={text => setImage(text)}
+              onChangeText={text => handleChange('image', text)}
               placeholderTextColor={'grey'}
             />
-          </View>
+          </View> */}
         </View>
+        <TouchableOpacity>
+          <View
+            style={[
+              ,
+              {
+                gap: 10,
+                paddingVertical: 30,
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+            ]}></View>
+        </TouchableOpacity>
+        {image ? (
+          <View style={{position: 'relative'}}>
+            <FastImage
+              style={{width: '100%', height: 127, borderRadius: 5}}
+              source={{
+                uri: image,
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.high,
+              }}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                top: -5,
+                right: -5,
+                backgroundColor: 'blue',
+                borderRadius: 25,
+              }}
+              onPress={() => setImage(null)}>
+              <Add
+                size={20}
+                variant="Linear"
+                color={'white'}
+                style={{transform: [{rotate: '45deg'}]}}
+              />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity onPress={handleImagePick}>
+            <View
+              style={[
+                styles.borderDashed,
+                {
+                  gap: 10,
+                  paddingVertical: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                },
+              ]}>
+              <AddSquare color={'pink'} variant="Linear" size={42} />
+              <Text
+                style={{
+                  fontFamily: fontType['Pjs-Regular'],
+                  fontSize: 12,
+                  color: 'pink',
+                }}>
+                Upload Order
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
       </ScrollView>
       <View style={styles.bottomBar}>
         {loading && (
@@ -132,6 +217,13 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     color: 'black',
+  },
+  borderDashed: {
+    borderStyle: 'dashed',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    borderColor: 'grey',
   },
 });
 const form = StyleSheet.create({
