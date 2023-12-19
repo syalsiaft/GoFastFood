@@ -10,6 +10,9 @@ import {
   AddOrderForm,
   SearchBar,
   EditOrderForm,
+  SplashScreen,
+  Register,
+  Login,
 } from '../../screens';
 import {
   Home2,
@@ -37,7 +40,7 @@ function MainApp() {
         tabBarLabelStyle: {
           marginTop: 5,
           fontSize: 10,
-          fontFamily: fontType['Pjs-Medium'],
+          fontFamily: fontType['Tjw-Medium'],
         },
       }}>
       <Tab.Screen
@@ -105,7 +108,7 @@ function MainApp() {
 }
 const Router = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="SplashScreen">
       <Stack.Screen
         name="MainApp"
         component={MainApp}
@@ -132,6 +135,21 @@ const Router = () => {
       <Stack.Screen
         name="SearchBar"
         component={SearchBar}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SplashScreen"
+        component={SplashScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
